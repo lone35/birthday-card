@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Doğum Günü Kartı</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="intro">
+        <h1>Mumları üflemeye hazır mısın?</h1>
+        <button onclick="start()">Evet!</button>
+    </div>
+
+    <div id="cake" style="display: none;">
+        <div class="candles">
+            <div class="flame"></div>
+            <div class="flame"></div>
+            <div class="flame"></div>
+        </div>
+        <button onclick="blowCandles()">Mumları Üfle</button>
+    </div>
+
+    <div id="form" style="display: none;">
+        <h2>Dileğini tut!</h2>
+        <input type="file" id="imageInput" accept="image/*"><br><br>
+        <input type="file" id="musicInput" accept="audio/*"><br><br>
+        <button onclick="showCard()">Kartı Göster</button>
+    </div>
+
+    <div id="card" style="display: none;">
+        <img id="userImage" src="" alt="Fotoğraf" />
+        <h3>Hayatın her anı mutlulukla dolsun.<br>
+            Şen kahkahalar, Neşe, Mutluluk hiç peşini bırakmasın.<br>
+            Doğum günün kutlu olsun!<br><strong>İYİKİ VARSIN…</strong></h3>
+        <audio id="music" controls autoplay loop></audio>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
