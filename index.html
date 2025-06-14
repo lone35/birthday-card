@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Doğum Günü Kartı Oluştur</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; padding: 20px; background: #fdf6e3; }
+    .kart { border: 2px dashed #ccc; padding: 20px; display: inline-block; background: white; }
+    input, textarea { display: block; margin: 10px auto; }
+    #preview img { max-width: 300px; }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+</head>
+<body>
+  <h1>🎂 Doğum Günü Kartı Oluştur 🎉</h1>
+
+  <input type="file" accept="image/*" onchange="previewImage(event)">
+  <input type="file" accept="audio/*" onchange="previewAudio(event)">
+  <input type="text" id="titleInput" placeholder="Başlık (örn: Mutlu Yıllar!)" oninput="updateText()">
+  <textarea id="messageInput" placeholder="Mesajını yaz..." rows="4" oninput="updateText()"></textarea>
+
+  <div class="kart" id="preview">
+    <h2 id="previewTitle">Mutlu Yıllar!</h2>
+    <img id="previewImg" src="" alt="Fotoğraf">
+    <p id="previewMsg">Harika bir doğum günü olsun!</p>
+  </div>
+
+  <audio id="audio" controls></audio>
+
+  <div style="margin-top:20px;">
+    <button onclick="downloadCard()">📥 Kartı İndir</button>
+    <button onclick="shareCard()">📤 Paylaş</button>
+  </div>
+
+  <script>
+    function previewImage(e){
+      const reader = new FileReader();
+      reader.onload = function(){
+        document.getElementById('previewImg').src = reader.result;
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    }
+
+    function previewAudio(e){
+      const audio = document.getElementById('audio');
+      audio.src = URL.createObjectURL(e.target.files[0]);
+      audio.play();
+    }
+
+    function updateText(){
+      document.getElementById('previewTitle').textContent = document.getElementById('titleInput').value || "Mutlu Yıllar!";
+      document.getElementById('previewMsg').textContent = document.getElementById('messageInput').value || "Harika bir doğum günü olsun!";
+    }
+
+    function downloadCard(){
+      html2canvas(document.getElementById("preview")).then(canvas=>{
+        canvas.toBlob(blob=>{
+          saveAs(blob, "dogum_gunu_karti.png");
+        });
+      });
+    }
+
+    async function shareCard(){
+      const canvas = await html2canvas(document.getElementById("preview"));
+      const blob = await new Promise(res => canvas.toBlob(res, "image/png"));
+      const file = new File([blob], "dogum_gunu_karti.png", {type: "image/png"});
+
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        try {
+          await navigator.share({
+            files: [file],
+            title: "Doğum Günü Kartım",
+            text: "Senin için özel bir kart hazırladım 🎉"
+          });
+        } catch (err) {
+          alert("Paylaşım iptal edildi.");
+        }
+      } else {
+        alert("Tarayıcınız paylaşım desteklemiyor.");
+      }
+    }
+  </script>
+</body>
+</html>
