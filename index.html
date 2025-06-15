@@ -1,41 +1,100 @@
-
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <title>Doğum Günü Kartı</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Doğum Günü Kartı</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      background: #fff9f0;
+      margin: 0;
+      padding: 20px;
+    }
+    .hidden { display: none; }
+    .upload-section {
+      margin-top: 30px;
+    }
+    .card {
+      margin-top: 40px;
+      border: 2px solid #ff7e5f;
+      padding: 20px;
+      border-radius: 10px;
+      background: #fff;
+    }
+    img {
+      max-width: 100%;
+      border-radius: 8px;
+    }
+    audio {
+      margin-top: 15px;
+    }
+    button {
+      background: #ff7e5f;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-    <div id="intro">
-        <h1>Mumları üflemeye hazır mısın?</h1>
-        <button onclick="start()">Evet!</button>
-    </div>
 
-    <div id="cake" style="display: none;">
-        <div class="candles">
-            <div class="flame"></div>
-            <div class="flame"></div>
-            <div class="flame"></div>
-        </div>
-        <button onclick="blowCandles()">Mumları Üfle</button>
-    </div>
+  <h1 id="introText">Mumları üflemeye hazır mısın?</h1>
 
-    <div id="form" style="display: none;">
-        <h2>Dileğini tut!</h2>
-        <input type="file" id="imageInput" accept="image/*"><br><br>
-        <input type="file" id="musicInput" accept="audio/*"><br><br>
-        <button onclick="showCard()">Kartı Göster</button>
-    </div>
+  <div class="upload-section" id="formSection">
+    <p>Fotoğraf yükle:</p>
+    <input type="file" id="photoInput" accept="image/*"><br><br>
 
-    <div id="card" style="display: none;">
-        <img id="userImage" src="" alt="Fotoğraf" />
-        <h3>Hayatın her anı mutlulukla dolsun.<br>
-            Şen kahkahalar, Neşe, Mutluluk hiç peşini bırakmasın.<br>
-            Doğum günün kutlu olsun!<br><strong>İYİKİ VARSIN…</strong></h3>
-        <audio id="music" controls autoplay loop></audio>
-    </div>
+    <p>Müzik yükle (MP3):</p>
+    <input type="file" id="musicInput" accept="audio/*"><br><br>
 
-    <script src="script.js"></script>
+    <p>Mesajını yaz:</p>
+    <textarea id="messageInput" rows="4" cols="30" placeholder="Mesajınız..."></textarea><br><br>
+
+    <button onclick="createCard()">Kartı Oluştur</button>
+  </div>
+
+  <div id="cardResult" class="card hidden">
+    <h2>🎉 Doğum Günün Kutlu Olsun 🎉</h2>
+    <img id="cardPhoto" src="" alt="Fotoğraf">
+    <p id="cardMessage"></p>
+    <audio id="cardMusic" controls autoplay></audio>
+  </div>
+
+  <script>
+    function createCard() {
+      const photo = document.getElementById('photoInput').files[0];
+      const music = document.getElementById('musicInput').files[0];
+      const message = document.getElementById('messageInput').value;
+
+      if (!photo || !music || !message) {
+        alert("Lütfen tüm alanları doldurun.");
+        return;
+      }
+
+      // Fotoğraf gösterimi
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById('cardPhoto').src = e.target.result;
+      };
+      reader.readAsDataURL(photo);
+
+      // Müzik gösterimi
+      const musicURL = URL.createObjectURL(music);
+      document.getElementById('cardMusic').src = musicURL;
+
+      // Mesaj
+      document.getElementById('cardMessage').innerText = message;
+
+      // Arayüz güncelleme
+      document.getElementById('formSection').classList.add('hidden');
+      document.getElementById('introText').classList.add('hidden');
+      document.getElementById('cardResult').classList.remove('hidden');
+    }
+  </script>
+
 </body>
 </html>
