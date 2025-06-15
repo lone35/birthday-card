@@ -1,0 +1,46 @@
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Doğum Günü Kartı</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- AÇILIŞ EKRANI -->
+  <div id="intro-screen">
+    <h1>Mumları üflemeye hazır mısın?</h1>
+    <button id="start-btn">🎂 Başla 🎂</button>
+  </div>
+
+  <!-- MUM ANİMASYONU -->
+  <div id="candle-screen" style="display:none;">
+    <img src="candle.gif" alt="Mum Yanıyor" class="candle-img">
+    <p>Dileğini tut ve mumları üfle!</p>
+    <button id="blow-btn">Üfle 🎉</button>
+  </div>
+
+  <!-- KART OLUŞTURMA EKRANI -->
+  <div id="card-creator" style="display:none;">
+    <h2>Doğum Günü Kartı Oluştur</h2>
+    <form id="birthday-form">
+      <label>Fotoğraf yükle: <input type="file" accept="image/*" id="photo-input" required></label><br><br>
+      <label>Müzik yükle (MP3): <input type="file" accept=".mp3" id="music-input" required></label><br><br>
+      <label>Mesajını yaz:<br>
+        <textarea id="message" placeholder="Mesajınız..." required></textarea>
+      </label><br><br>
+      <button type="submit">Kartı Oluştur</button>
+    </form>
+  </div>
+
+  <!-- KART EKRANI -->
+  <div id="birthday-card" style="display:none;">
+    <h2>🎉 Doğum Günün Kutlu Olsun 🎉</h2>
+    <img id="photo-preview" src="" alt="Fotoğraf">
+    <p id="card-message"></p>
+    <audio id="birthday-audio" controls autoplay></audio>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
